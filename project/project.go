@@ -2,6 +2,7 @@ package project
 
 import "time"
 
+// Project the representation of model Project
 type Project struct {
 	ID        string    `json:"id"`
 	Name      string    `json:"name"`
@@ -10,6 +11,7 @@ type Project struct {
 	Status    int       `json:"status"`
 }
 
+// Repository the interface used to enable callings to dbs
 type Repository interface {
 	CreateProject(name string) error
 }
