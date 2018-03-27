@@ -1,0 +1,27 @@
+language: go
+
+go:
+  - 1.8.x
+  - 1.9.x
+  - 1.10.x
+  - tip
+
+env:
+  COVERALLS_TOKEN = id1PO68SkawVkH1n1JPsfcQbmNfba3ZJQ
+
+before_install:
+  - go get github.com/mattn/goveralls
+
+install:
+  - go get -t ./...
+
+matrix:
+  allow_failures:
+    - go: tip
+  fast_finish: true
+
+script:
+  - make test
+  - make race
+  - make build
+  - $GOPATH/bin/goveralls -service=travis-pro
