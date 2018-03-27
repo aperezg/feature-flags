@@ -10,14 +10,14 @@ type RepositoryMock struct {
 	mock.Mock
 }
 
-// CreateProject function mock to simulate the calling on "CreateProject"
-func (m *RepositoryMock) CreateProject(name string) error {
+// FindByName function mock to simulate the calling on "FindByName"
+func (m *RepositoryMock) FindByName(name string) (project.Project, error) {
 	args := m.Called(name)
-	return args.Error(0)
+	return args.Get(0).(project.Project), args.Error(1)
 }
 
-// FindByName function mock to simulate the calling on "FindByName"
-func (m *RepositoryMock) FindByName(name string, project *project.Project) error {
-	args := m.Called(name, project)
+// Persist function mock to simulate the calling on "Persist"
+func (m *RepositoryMock) Persist(project *project.Project) error {
+	args := m.Called(project)
 	return args.Error(0)
 }
