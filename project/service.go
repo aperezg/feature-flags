@@ -1,6 +1,6 @@
 package project
 
-import "gopkg.in/src-d/go-errors.v1"
+import "github.com/pkg/errors"
 
 type Service interface {
 	CreateProject(name string) (Project, error)
@@ -17,11 +17,9 @@ func NewService(repository Repository) Service {
 }
 
 func (s *service) CreateProject(name string) (Project, error) {
-	var errorCreatingProject = errors.NewKind("The project could not be created")
-
 	err := s.repository.CreateProject(name)
 	if err != nil {
-		return Project{}, errorCreatingProject.Wrap(err)
+		return Project{}, errors.Wrap(err, "The project could not be created")
 	}
 	return Project{}, nil
 }
