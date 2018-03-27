@@ -9,8 +9,6 @@ go:
 before_install:
   - go get github.com/mattn/goveralls
   - go get golang.org/x/tools/cmd/cover
-install:
-  - go get -t ./...
 matrix:
   allow_failures:
     - go: tip
