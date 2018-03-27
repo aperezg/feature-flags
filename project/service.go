@@ -24,5 +24,10 @@ func (s *service) CreateProject(name string) (Project, error) {
 	if err != nil {
 		return Project{}, errors.Wrap(err, "The project could not be created")
 	}
-	return Project{}, nil
+	var p Project
+	err = s.repository.FindByName(name, &p)
+	if err != nil {
+		return Project{}, errors.Wrap(err, "The current created project could not be found")
+	}
+	return p, nil
 }

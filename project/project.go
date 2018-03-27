@@ -14,4 +14,5 @@ type Project struct {
 // Repository the interface used to enable callings to dbs
 type Repository interface {
 	CreateProject(name string) error
+	FindByName(name string, project *Project) error
 }
