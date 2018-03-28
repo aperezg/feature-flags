@@ -19,6 +19,9 @@ type Service interface {
 
 	// DeactivateProject First look for a project by its ID, if it finds it then it deactivates it
 	DeactivateProject(ID Identity) error
+
+	// ActivateProject First look for a project by its ID, if it finds it then it activates it
+	ActivateProject(ID Identity) error
 }
 
 type service struct {
@@ -80,8 +83,16 @@ func (s *service) DeactivateProject(ID Identity) error {
 	p.UpdatedAt = time.Now()
 	err = s.repository.Persist(&p)
 	if err != nil {
-		return errors.Wrap(err, "The status change to the project could not be saved")
+		return errors.Wrap(err, fmt.Sprintf("Can't deactivate the project %s", p.Name))
 	}
 
+	return nil
+}
+
+func (s *service) ActivateProject(ID Identity) error {
+	_, err := s.repository.FindByID(ID)
+	if err != nil {
+		return errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
+	}
 	return nil
 }
