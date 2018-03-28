@@ -90,9 +90,15 @@ func (s *service) DeactivateProject(ID Identity) error {
 }
 
 func (s *service) ActivateProject(ID Identity) error {
-	_, err := s.repository.FindByID(ID)
+	p, err := s.repository.FindByID(ID)
 	if err != nil {
 		return errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
+	}
+	p.Status = StatusEnabled
+	p.UpdatedAt = time.Now()
+	err = s.repository.Persist(&p)
+	if err != nil {
+		return errors.Wrap(err, fmt.Sprintf("Can't activate the project %s", p.Name))
 	}
 	return nil
 }
