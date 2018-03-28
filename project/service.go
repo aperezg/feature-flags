@@ -1,6 +1,8 @@
 package project
 
 import (
+	"fmt"
+	. "github.com/aperezg/feature-flags/identity"
 	"github.com/pkg/errors"
 	"github.com/satori/go.uuid"
 	"time"
@@ -9,6 +11,7 @@ import (
 // Service the interface used for encapsulate the business logic of the project
 type Service interface {
 	CreateProject(name string) (Project, error)
+	ModifyProjectName(ID Identity, newName string) (Project, error)
 }
 
 type service struct {
@@ -29,7 +32,7 @@ func (s *service) CreateProject(name string) (Project, error) {
 	}
 
 	p := Project{
-		ID:        uuid.NewV4().String(),
+		ID:        Identity(uuid.NewV4().String()),
 		Name:      name,
 		CreatedAt: time.Now(),
 		Status:    1,
@@ -39,5 +42,26 @@ func (s *service) CreateProject(name string) (Project, error) {
 	if err != nil {
 		return Project{}, errors.Wrap(err, "The project could not be created")
 	}
+	return p, nil
+}
+
+// ModifyProjectName First of all searching into a repository if there any project with the name to change
+// if is not, search by Identity the project and when found it then change the name and Persists the changes
+func (s *service) ModifyProjectName(ID Identity, newName string) (Project, error) {
+	if p, _ := s.repository.FindByName(newName); p != (Project{}) {
+		return Project{}, errors.New(fmt.Sprintf("The project %s already exists", newName))
+	}
+
+	p, err := s.repository.FindByID(ID)
+	if err != nil {
+		return Project{}, errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
+	}
+	p.Name = newName
+
+	err = s.repository.Persist(&p)
+	if err != nil {
+		return Project{}, errors.Wrap(err, "The changes to the project could not be saved")
+	}
+
 	return p, nil
 }
