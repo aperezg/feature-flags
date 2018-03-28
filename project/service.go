@@ -12,6 +12,7 @@ import (
 type Service interface {
 	CreateProject(name string) (Project, error)
 	ModifyProjectName(ID Identity, newName string) (Project, error)
+	DeactivateProject(ID Identity) error
 }
 
 type service struct {
@@ -64,4 +65,12 @@ func (s *service) ModifyProjectName(ID Identity, newName string) (Project, error
 	}
 
 	return p, nil
+}
+
+func (s *service) DeactivateProject(ID Identity) error {
+	_, err := s.repository.FindByID(ID)
+	if err != nil {
+		return errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
+	}
+	return nil
 }

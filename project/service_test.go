@@ -86,6 +86,15 @@ func TestModifyProjectName(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestReturnAnErrorWhenProjectNotFoundOnDeactivateProject(t *testing.T) {
+	r := new(storeProject.RepositoryMock)
+	r.On("FindByID", projectID).Return(project.Project{}, errors.New("error"))
+
+	s := project.NewService(r)
+	err := s.DeactivateProject(projectID)
+	assert.Error(t, err)
+}
+
 func dummyProject(name string) project.Project {
 	return project.Project{
 		ID:        projectID,
