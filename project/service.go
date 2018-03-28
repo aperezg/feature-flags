@@ -61,19 +61,27 @@ func (s *service) ModifyProjectName(ID Identity, newName string) (Project, error
 		return Project{}, errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
 	}
 	p.Name = newName
+	p.UpdatedAt = time.Now()
 
 	err = s.repository.Persist(&p)
 	if err != nil {
-		return Project{}, errors.Wrap(err, "The changes to the project could not be saved")
+		return Project{}, errors.Wrap(err, "The name change to the project could not be saved")
 	}
 
 	return p, nil
 }
 
 func (s *service) DeactivateProject(ID Identity) error {
-	_, err := s.repository.FindByID(ID)
+	p, err := s.repository.FindByID(ID)
 	if err != nil {
 		return errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
 	}
+	p.Status = StatusDisabled
+	p.UpdatedAt = time.Now()
+	err = s.repository.Persist(&p)
+	if err != nil {
+		return errors.Wrap(err, "The status change to the project could not be saved")
+	}
+
 	return nil
 }

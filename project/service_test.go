@@ -95,6 +95,26 @@ func TestReturnAnErrorWhenProjectNotFoundOnDeactivateProject(t *testing.T) {
 	assert.Error(t, err)
 }
 
+func TestReturnAnErrorWhenPersistOnDeactivateProject(t *testing.T) {
+	r := new(storeProject.RepositoryMock)
+	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
+	r.On("Persist", mock.AnythingOfType("*project.Project")).Return(errors.New("error"))
+
+	s := project.NewService(r)
+	err := s.DeactivateProject(projectID)
+	assert.Error(t, err)
+}
+
+func TestDeactivateProject(t *testing.T) {
+	r := new(storeProject.RepositoryMock)
+	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
+	r.On("Persist", mock.AnythingOfType("*project.Project")).Return(nil)
+
+	s := project.NewService(r)
+	err := s.DeactivateProject(projectID)
+	assert.NoError(t, err)
+}
+
 func dummyProject(name string) project.Project {
 	return project.Project{
 		ID:        projectID,
