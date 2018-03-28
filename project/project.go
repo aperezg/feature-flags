@@ -11,8 +11,16 @@ type Project struct {
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-	Status    int       `json:"status"`
+	Status    Status    `json:"status"`
 }
+
+// ProjectStatus define the states in which our project can be found
+type Status int
+
+const (
+	StatusDisabled Status = iota
+	StatusEnabled
+)
 
 // Repository provides access a Project store.
 type Repository interface {
