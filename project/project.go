@@ -14,7 +14,7 @@ type Project struct {
 	Status    int       `json:"status"`
 }
 
-// Repository the interface used to enable callings to dbs
+// Repository provides access a Project store.
 type Repository interface {
 	FindByName(name string) (Project, error)
 	FindByID(ID Identity) (Project, error)

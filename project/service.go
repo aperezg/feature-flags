@@ -10,8 +10,14 @@ import (
 
 // Service the interface used for encapsulate the business logic of the project
 type Service interface {
+	// CreateProject this function creates a new project based on the name passed by parameter
 	CreateProject(name string) (Project, error)
+
+	// ModifyProjectName First of all searching into a repository if there any project with the name to change
+	// if is not, search by Identity the project and when found it then change the name and Persists the changes
 	ModifyProjectName(ID Identity, newName string) (Project, error)
+
+	// DeactivateProject First look for a project by its ID, if it finds it then it deactivates it
 	DeactivateProject(ID Identity) error
 }
 
@@ -26,7 +32,6 @@ func NewService(repository Repository) Service {
 	}
 }
 
-// CreateProject this function creates a new project based on the name passed by parameter
 func (s *service) CreateProject(name string) (Project, error) {
 	if p, _ := s.repository.FindByName(name); p != (Project{}) {
 		return Project{}, errors.New("The project %s already exists")
@@ -46,8 +51,6 @@ func (s *service) CreateProject(name string) (Project, error) {
 	return p, nil
 }
 
-// ModifyProjectName First of all searching into a repository if there any project with the name to change
-// if is not, search by Identity the project and when found it then change the name and Persists the changes
 func (s *service) ModifyProjectName(ID Identity, newName string) (Project, error) {
 	if p, _ := s.repository.FindByName(newName); p != (Project{}) {
 		return Project{}, errors.New(fmt.Sprintf("The project %s already exists", newName))
