@@ -22,6 +22,9 @@ type Service interface {
 
 	// ActivateProject First look for a project by its ID, if it finds it then it activates it
 	ActivateProject(ID Identity) error
+
+	// RemoveProject Remove a project from the face of the earth
+	RemoveProject(ID Identity) error
 }
 
 type service struct {
@@ -59,9 +62,9 @@ func (s *service) ModifyProjectName(ID Identity, newName string) (Project, error
 		return Project{}, errors.New(fmt.Sprintf("The project %s already exists", newName))
 	}
 
-	p, err := s.repository.FindByID(ID)
+	p, err := s.checkIfProjectFound(ID)
 	if err != nil {
-		return Project{}, errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
+		return p, err
 	}
 	p.Name = newName
 	p.UpdatedAt = time.Now()
@@ -75,9 +78,9 @@ func (s *service) ModifyProjectName(ID Identity, newName string) (Project, error
 }
 
 func (s *service) DeactivateProject(ID Identity) error {
-	p, err := s.repository.FindByID(ID)
+	p, err := s.checkIfProjectFound(ID)
 	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
+		return err
 	}
 	p.Status = StatusDisabled
 	p.UpdatedAt = time.Now()
@@ -90,9 +93,9 @@ func (s *service) DeactivateProject(ID Identity) error {
 }
 
 func (s *service) ActivateProject(ID Identity) error {
-	p, err := s.repository.FindByID(ID)
+	p, err := s.checkIfProjectFound(ID)
 	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
+		return err
 	}
 	p.Status = StatusEnabled
 	p.UpdatedAt = time.Now()
@@ -101,4 +104,22 @@ func (s *service) ActivateProject(ID Identity) error {
 		return errors.Wrap(err, fmt.Sprintf("Can't activate the project %s", p.Name))
 	}
 	return nil
+}
+
+func (s *service) RemoveProject(ID Identity) error {
+	_, err := s.checkIfProjectFound(ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *service) checkIfProjectFound(ID Identity) (Project, error) {
+	p, err := s.repository.FindByID(ID)
+	if err != nil {
+		return Project{}, errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
+	}
+
+	return p, nil
 }
