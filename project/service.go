@@ -24,6 +24,9 @@ type Service interface {
 
 	// RemoveProject Remove a project from the face of the earth
 	RemoveProject(ID string) error
+
+	// FindProjects Fetch all projects on store
+	FindProjects() ([]Project, error)
 }
 
 type service struct {
@@ -114,6 +117,15 @@ func (s *service) RemoveProject(ID string) error {
 		return errors.Wrap(err, fmt.Sprintf("Can't remove the project %s", p.Name))
 	}
 	return nil
+}
+
+func (s *service) FindProjects() ([]Project, error) {
+	projects, err := s.repository.FindAll()
+	if err != nil {
+		return []Project{}, errors.Wrap(err, "Can't retrieve the results")
+	}
+
+	return projects, err
 }
 
 func (s *service) checkIfProjectFound(ID string) (Project, error) {

@@ -25,6 +25,7 @@ const (
 
 // Repository provides access a Project store.
 type Repository interface {
+	FindAll() ([]Project, error)
 	FindByName(name string) (Project, error)
 	FindByID(ID string) (Project, error)
 	Persist(project *Project) error

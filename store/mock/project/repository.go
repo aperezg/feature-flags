@@ -33,3 +33,9 @@ func (m *RepositoryMock) Remove(ID string) error {
 	args := m.Called(ID)
 	return args.Error(0)
 }
+
+// FindAll function mock to simulate the calling on "FindAll"
+func (m *RepositoryMock) FindAll() ([]project.Project, error) {
+	args := m.Called()
+	return args.Get(0).([]project.Project), args.Error(1)
+}
