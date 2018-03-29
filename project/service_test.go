@@ -184,6 +184,16 @@ func TestReturnAnErrorTryingToFetchResulsetOnFindProjects(t *testing.T) {
 	assert.Empty(t, projects)
 }
 
+func TestReturnAnEmptyResultWhenNotFoundProjectOnFindProjects(t *testing.T) {
+	r := new(storeProject.RepositoryMock)
+	r.On("FindAll").Return([]project.Project{}, nil)
+
+	s := project.NewService(r)
+	projects, err := s.FindProjects()
+	assert.NoError(t, err)
+	assert.Empty(t, projects)
+}
+
 func dummyProject(name string) project.Project {
 	return project.Project{
 		ID:        projectID,
