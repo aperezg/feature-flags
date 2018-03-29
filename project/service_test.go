@@ -3,7 +3,7 @@ package project_test
 import (
 	"errors"
 	"github.com/aperezg/feature-flags/project"
-	storeProject "github.com/aperezg/feature-flags/store/mock/project"
+	store "github.com/aperezg/feature-flags/store/mock/project"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"testing"
@@ -14,7 +14,7 @@ const projectID = "01C9S9Z0VG0MJFWYQZBFSSXDZE"
 const projectName = "test_project"
 
 func TestReturnAnErrorWhenProjectAlreadyExists(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByName", projectName).Return(dummyProject(projectName), nil)
 
 	s := project.NewService(r)
@@ -23,7 +23,7 @@ func TestReturnAnErrorWhenProjectAlreadyExists(t *testing.T) {
 }
 
 func TestReturnAnErrorCreatingProject(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByName", projectName).Return(project.Project{}, nil)
 	r.On("Persist", mock.AnythingOfType("*project.Project")).Return(errors.New("error"))
 
@@ -33,7 +33,7 @@ func TestReturnAnErrorCreatingProject(t *testing.T) {
 }
 
 func TestCreateProject(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByName", projectName).Return(project.Project{}, nil)
 	r.On("Persist", mock.AnythingOfType("*project.Project")).Return(nil)
 
@@ -44,7 +44,7 @@ func TestCreateProject(t *testing.T) {
 }
 
 func TestReturnAnErrorWhenProjectNameAlreadyExistsOnModifyProjectName(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByName", projectName).Return(dummyProject(projectName), nil)
 
 	s := project.NewService(r)
@@ -53,7 +53,7 @@ func TestReturnAnErrorWhenProjectNameAlreadyExistsOnModifyProjectName(t *testing
 }
 
 func TestReturnAnErrorWhenProjectNotFoundOnModifyProjectName(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByName", projectName).Return(project.Project{}, nil)
 	r.On("FindByID", projectID).Return(project.Project{}, errors.New("error"))
 
@@ -63,7 +63,7 @@ func TestReturnAnErrorWhenProjectNotFoundOnModifyProjectName(t *testing.T) {
 }
 
 func TestReturnAnErrorWhenPersistsOnModifyProjectName(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByName", projectName).Return(project.Project{}, nil)
 	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
 	r.On("Persist", mock.AnythingOfType("*project.Project")).Return(errors.New("error"))
@@ -74,7 +74,7 @@ func TestReturnAnErrorWhenPersistsOnModifyProjectName(t *testing.T) {
 }
 
 func TestModifyProjectName(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByName", projectName).Return(project.Project{}, nil)
 	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
 	r.On("Persist", mock.AnythingOfType("*project.Project")).Return(nil)
@@ -86,7 +86,7 @@ func TestModifyProjectName(t *testing.T) {
 }
 
 func TestReturnAnErrorWhenProjectNotFoundOnDeactivateProject(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByID", projectID).Return(project.Project{}, errors.New("error"))
 
 	s := project.NewService(r)
@@ -95,7 +95,7 @@ func TestReturnAnErrorWhenProjectNotFoundOnDeactivateProject(t *testing.T) {
 }
 
 func TestReturnAnErrorWhenPersistOnDeactivateProject(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
 	r.On("Persist", mock.AnythingOfType("*project.Project")).Return(errors.New("error"))
 
@@ -105,7 +105,7 @@ func TestReturnAnErrorWhenPersistOnDeactivateProject(t *testing.T) {
 }
 
 func TestDeactivateProject(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
 	r.On("Persist", mock.AnythingOfType("*project.Project")).Return(nil)
 
@@ -115,7 +115,7 @@ func TestDeactivateProject(t *testing.T) {
 }
 
 func TestReturnAnErrorWhenProjectNotFoundOnActivateProject(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByID", projectID).Return(project.Project{}, errors.New("error"))
 
 	s := project.NewService(r)
@@ -124,7 +124,7 @@ func TestReturnAnErrorWhenProjectNotFoundOnActivateProject(t *testing.T) {
 }
 
 func TestReturnAnErrorWhenPersistOnActivateProject(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
 	r.On("Persist", mock.AnythingOfType("*project.Project")).Return(errors.New("error"))
 
@@ -134,7 +134,7 @@ func TestReturnAnErrorWhenPersistOnActivateProject(t *testing.T) {
 }
 
 func TestActivateProject(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
 	r.On("Persist", mock.AnythingOfType("*project.Project")).Return(nil)
 
@@ -144,7 +144,7 @@ func TestActivateProject(t *testing.T) {
 }
 
 func TestReturnAnErrorWhenProjectNotFoundOnRemoveProject(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByID", projectID).Return(project.Project{}, errors.New("error"))
 
 	s := project.NewService(r)
@@ -154,7 +154,7 @@ func TestReturnAnErrorWhenProjectNotFoundOnRemoveProject(t *testing.T) {
 }
 
 func TestReturnAnErrorWhenRemoveOnActivateProject(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
 	r.On("Remove", projectID).Return(errors.New("error"))
 
@@ -164,7 +164,7 @@ func TestReturnAnErrorWhenRemoveOnActivateProject(t *testing.T) {
 }
 
 func TestReturnRemoveProject(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 
 	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
 	r.On("Remove", projectID).Return(nil)
@@ -175,7 +175,7 @@ func TestReturnRemoveProject(t *testing.T) {
 }
 
 func TestReturnAnErrorTryingToFetchResulsetOnFindProjects(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindAll").Return([]project.Project{}, errors.New("error"))
 
 	s := project.NewService(r)
@@ -185,13 +185,25 @@ func TestReturnAnErrorTryingToFetchResulsetOnFindProjects(t *testing.T) {
 }
 
 func TestReturnAnEmptyResultWhenNotFoundProjectOnFindProjects(t *testing.T) {
-	r := new(storeProject.RepositoryMock)
+	r := new(store.RepositoryMock)
 	r.On("FindAll").Return([]project.Project{}, nil)
 
 	s := project.NewService(r)
 	projects, err := s.FindProjects()
 	assert.NoError(t, err)
 	assert.Empty(t, projects)
+}
+
+func TestReturnProjectsOnFindProjects(t *testing.T) {
+	r := new(store.RepositoryMock)
+	p := dummyProject(projectName)
+
+	r.On("FindAll").Return([]project.Project{p}, nil)
+
+	s := project.NewService(r)
+	projects, err := s.FindProjects()
+	assert.NoError(t, err)
+	assert.NotEmpty(t, projects)
 }
 
 func dummyProject(name string) project.Project {
