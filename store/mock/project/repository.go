@@ -28,3 +28,9 @@ func (m *RepositoryMock) Persist(project *project.Project) error {
 	args := m.Called(project)
 	return args.Error(0)
 }
+
+// Remove function mock to simulate the calling on "Remove"
+func (m *RepositoryMock) Remove(ID Identity) error {
+	args := m.Called(ID)
+	return args.Error(0)
+}

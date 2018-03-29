@@ -107,11 +107,14 @@ func (s *service) ActivateProject(ID Identity) error {
 }
 
 func (s *service) RemoveProject(ID Identity) error {
-	_, err := s.checkIfProjectFound(ID)
+	p, err := s.checkIfProjectFound(ID)
 	if err != nil {
 		return err
 	}
 
+	if err := s.repository.Remove(ID); err != nil {
+		return errors.Wrap(err, fmt.Sprintf("Can't remove the project %s", p.Name))
+	}
 	return nil
 }
 
@@ -120,6 +123,5 @@ func (s *service) checkIfProjectFound(ID Identity) (Project, error) {
 	if err != nil {
 		return Project{}, errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
 	}
-
 	return p, nil
 }

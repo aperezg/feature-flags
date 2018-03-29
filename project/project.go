@@ -14,11 +14,13 @@ type Project struct {
 	Status    Status    `json:"status"`
 }
 
-// ProjectStatus define the states in which our project can be found
+// Status define the states in which our project can be found
 type Status int
 
 const (
+	// StatusDisabled Representation of disabled status
 	StatusDisabled Status = iota
+	// StatusEnabled Representation of enabled status
 	StatusEnabled
 )
 
@@ -27,4 +29,5 @@ type Repository interface {
 	FindByName(name string) (Project, error)
 	FindByID(ID Identity) (Project, error)
 	Persist(project *Project) error
+	Remove(ID Identity) error
 }

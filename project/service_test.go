@@ -154,6 +154,27 @@ func TestReturnAnErrorWhenProjectNotFoundOnRemoveProject(t *testing.T) {
 
 }
 
+func TestReturnAnErrorWhenRemoveOnActivateProject(t *testing.T) {
+	r := new(storeProject.RepositoryMock)
+	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
+	r.On("Remove", projectID).Return(errors.New("error"))
+
+	s := project.NewService(r)
+	err := s.RemoveProject(projectID)
+	assert.Error(t, err)
+}
+
+func TestReturnRemoveProject(t *testing.T) {
+	r := new(storeProject.RepositoryMock)
+
+	r.On("FindByID", projectID).Return(dummyProject(projectName), nil)
+	r.On("Remove", projectID).Return(nil)
+
+	s := project.NewService(r)
+	err := s.RemoveProject(projectID)
+	assert.NoError(t, err)
+}
+
 func dummyProject(name string) project.Project {
 	return project.Project{
 		ID:        projectID,
