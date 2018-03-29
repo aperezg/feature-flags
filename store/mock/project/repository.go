@@ -1,7 +1,6 @@
 package project
 
 import (
-	. "github.com/aperezg/feature-flags/identity"
 	"github.com/aperezg/feature-flags/project"
 	"github.com/stretchr/testify/mock"
 )
@@ -18,7 +17,7 @@ func (m *RepositoryMock) FindByName(name string) (project.Project, error) {
 }
 
 // FindByID function mock to simulate the calling on "FindByID"
-func (m *RepositoryMock) FindByID(ID Identity) (project.Project, error) {
+func (m *RepositoryMock) FindByID(ID string) (project.Project, error) {
 	args := m.Called(ID)
 	return args.Get(0).(project.Project), args.Error(1)
 }
@@ -30,7 +29,7 @@ func (m *RepositoryMock) Persist(project *project.Project) error {
 }
 
 // Remove function mock to simulate the calling on "Remove"
-func (m *RepositoryMock) Remove(ID Identity) error {
+func (m *RepositoryMock) Remove(ID string) error {
 	args := m.Called(ID)
 	return args.Error(0)
 }

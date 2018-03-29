@@ -2,9 +2,8 @@ package project
 
 import (
 	"fmt"
-	. "github.com/aperezg/feature-flags/identity"
+	"github.com/aperezg/feature-flags/identity"
 	"github.com/pkg/errors"
-	"github.com/satori/go.uuid"
 	"time"
 )
 
@@ -14,17 +13,17 @@ type Service interface {
 	CreateProject(name string) (Project, error)
 
 	// ModifyProjectName First of all searching into a repository if there any project with the name to change
-	// if is not, search by Identity the project and when found it then change the name and Persists the changes
-	ModifyProjectName(ID Identity, newName string) (Project, error)
+	// if is not, search by ID the project and when found it then change the name and Persists the changes
+	ModifyProjectName(ID string, newName string) (Project, error)
 
 	// DeactivateProject First look for a project by its ID, if it finds it then it deactivates it
-	DeactivateProject(ID Identity) error
+	DeactivateProject(ID string) error
 
 	// ActivateProject First look for a project by its ID, if it finds it then it activates it
-	ActivateProject(ID Identity) error
+	ActivateProject(ID string) error
 
 	// RemoveProject Remove a project from the face of the earth
-	RemoveProject(ID Identity) error
+	RemoveProject(ID string) error
 }
 
 type service struct {
@@ -44,7 +43,7 @@ func (s *service) CreateProject(name string) (Project, error) {
 	}
 
 	p := Project{
-		ID:        Identity(uuid.NewV4().String()),
+		ID:        identity.NewID(),
 		Name:      name,
 		CreatedAt: time.Now(),
 		Status:    1,
@@ -57,7 +56,7 @@ func (s *service) CreateProject(name string) (Project, error) {
 	return p, nil
 }
 
-func (s *service) ModifyProjectName(ID Identity, newName string) (Project, error) {
+func (s *service) ModifyProjectName(ID string, newName string) (Project, error) {
 	if p, _ := s.repository.FindByName(newName); p != (Project{}) {
 		return Project{}, errors.New(fmt.Sprintf("The project %s already exists", newName))
 	}
@@ -77,7 +76,7 @@ func (s *service) ModifyProjectName(ID Identity, newName string) (Project, error
 	return p, nil
 }
 
-func (s *service) DeactivateProject(ID Identity) error {
+func (s *service) DeactivateProject(ID string) error {
 	p, err := s.checkIfProjectFound(ID)
 	if err != nil {
 		return err
@@ -92,7 +91,7 @@ func (s *service) DeactivateProject(ID Identity) error {
 	return nil
 }
 
-func (s *service) ActivateProject(ID Identity) error {
+func (s *service) ActivateProject(ID string) error {
 	p, err := s.checkIfProjectFound(ID)
 	if err != nil {
 		return err
@@ -106,7 +105,7 @@ func (s *service) ActivateProject(ID Identity) error {
 	return nil
 }
 
-func (s *service) RemoveProject(ID Identity) error {
+func (s *service) RemoveProject(ID string) error {
 	p, err := s.checkIfProjectFound(ID)
 	if err != nil {
 		return err
@@ -118,10 +117,10 @@ func (s *service) RemoveProject(ID Identity) error {
 	return nil
 }
 
-func (s *service) checkIfProjectFound(ID Identity) (Project, error) {
+func (s *service) checkIfProjectFound(ID string) (Project, error) {
 	p, err := s.repository.FindByID(ID)
 	if err != nil {
-		return Project{}, errors.Wrap(err, fmt.Sprintf("The project %s not found", ID.String()))
+		return Project{}, errors.Wrap(err, fmt.Sprintf("The project %s not found", p.Name))
 	}
 	return p, nil
 }

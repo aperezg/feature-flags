@@ -1,13 +1,12 @@
 package project
 
 import (
-	. "github.com/aperezg/feature-flags/identity"
 	"time"
 )
 
 // Project the representation of model Project
 type Project struct {
-	ID        Identity  `json:"id"`
+	ID        string    `json:"id"`
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -27,7 +26,7 @@ const (
 // Repository provides access a Project store.
 type Repository interface {
 	FindByName(name string) (Project, error)
-	FindByID(ID Identity) (Project, error)
+	FindByID(ID string) (Project, error)
 	Persist(project *Project) error
-	Remove(ID Identity) error
+	Remove(ID string) error
 }

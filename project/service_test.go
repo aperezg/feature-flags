@@ -2,7 +2,6 @@ package project_test
 
 import (
 	"errors"
-	. "github.com/aperezg/feature-flags/identity"
 	"github.com/aperezg/feature-flags/project"
 	storeProject "github.com/aperezg/feature-flags/store/mock/project"
 	"github.com/stretchr/testify/assert"
@@ -11,7 +10,7 @@ import (
 	"time"
 )
 
-const projectID = Identity("f30c7ee9-ef5a-4c7f-b680-6f1166f3451b")
+const projectID = "f30c7ee9-ef5a-4c7f-b680-6f1166f3451b"
 const projectName = "test_project"
 
 func TestReturnAnErrorWhenProjectAlreadyExists(t *testing.T) {

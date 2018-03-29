@@ -1,8 +1,8 @@
 package identity
 
-type Identity string
+import "github.com/satori/go.uuid"
 
-// String parsing the Identity type to string
-func (i Identity) String() string {
-	return string(i)
+// NewID Return an new ID regardless of the library used for that purpose
+func NewID() string {
+	return string(uuid.NewV4().String())
 }
