@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const projectID = "f30c7ee9-ef5a-4c7f-b680-6f1166f3451b"
+const projectID = "01C9S9Z0VG0MJFWYQZBFSSXDZE"
 const projectName = "test_project"
 
 func TestReturnAnErrorWhenProjectAlreadyExists(t *testing.T) {

@@ -1,8 +1,14 @@
 package identity
 
-import "github.com/satori/go.uuid"
+import (
+	"github.com/oklog/ulid"
+	"math/rand"
+	"time"
+)
 
 // NewID Return an new ID regardless of the library used for that purpose
 func NewID() string {
-	return string(uuid.NewV4().String())
+	t := time.Unix(1000000, 0)
+	entropy := rand.New(rand.NewSource(t.UnixNano()))
+	return ulid.MustNew(ulid.Timestamp(t), entropy).String()
 }

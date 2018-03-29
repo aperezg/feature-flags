@@ -41,7 +41,6 @@ func (s *service) CreateProject(name string) (Project, error) {
 	if p, _ := s.repository.FindByName(name); p != (Project{}) {
 		return Project{}, errors.New("The project %s already exists")
 	}
-
 	p := Project{
 		ID:        identity.NewID(),
 		Name:      name,
