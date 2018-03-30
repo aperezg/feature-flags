@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/aperezg/feature-flags/project"
-	store "github.com/aperezg/feature-flags/store/mock/project"
+	store "github.com/aperezg/feature-flags/store/mock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )

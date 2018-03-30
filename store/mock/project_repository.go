@@ -1,4 +1,4 @@
-package project
+package mock
 
 import (
 	"github.com/aperezg/feature-flags/project"
