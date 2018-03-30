@@ -8,6 +8,58 @@
   version = "v1.1.0"
 
 [[projects]]
+  name = "github.com/go-kit/kit"
+  packages = [
+    "endpoint",
+    "log",
+    "transport/http"
+  ]
+  revision = "ca4112baa34cb55091301bdc13b1420a122b1b9e"
+  version = "v0.7.0"
+
+[[projects]]
+  name = "github.com/go-logfmt/logfmt"
+  packages = ["."]
+  revision = "390ab7935ee28ec6b286364bba9b4dd6410cb3d5"
+  version = "v0.3.0"
+
+[[projects]]
+  name = "github.com/go-stack/stack"
+  packages = ["."]
+  revision = "259ab82a6cad3992b4e21ff5cac294ccb06474bc"
+  version = "v1.7.0"
+
+[[projects]]
+  name = "github.com/graphql-go/graphql"
+  packages = [
+    ".",
+    "gqlerrors",
+    "language/ast",
+    "language/kinds",
+    "language/lexer",
+    "language/location",
+    "language/parser",
+    "language/printer",
+    "language/source",
+    "language/typeInfo",
+    "language/visitor"
+  ]
+  revision = "1e23489041ba90a66f317fe0deccb236a2fff3cb"
+  version = "v0.7.5"
+
+[[projects]]
+  name = "github.com/graphql-go/handler"
+  packages = ["."]
+  revision = "f0393b2c10daeebea900292b8e092e73475399d9"
+  version = "v0.2.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/kr/logfmt"
+  packages = ["."]
+  revision = "b84e30acd515aadc4b783ad4ff83aff3299bdfe0"
+
+[[projects]]
   name = "github.com/oklog/ulid"
   packages = ["."]
   revision = "d311cb43c92434ec4072dfbbda3400741d0a6337"
@@ -26,6 +78,12 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/sirupsen/logrus"
+  packages = ["."]
+  revision = "c155da19408a8799da419ed3eeb0cb5db0ad5dbc"
+  version = "v1.0.5"
+
+[[projects]]
   name = "github.com/stretchr/objx"
   packages = ["."]
   revision = "facf9a85c22f48d2f52f2380e4efce1768749a89"
@@ -40,9 +98,24 @@
   revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
   version = "v1.2.1"
 
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+  packages = ["ssh/terminal"]
+  revision = "88942b9c40a4c9d203b82b3731787b672d6e809b"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = [
+    "unix",
+    "windows"
+  ]
+  revision = "378d26f46672a356c46195c28f61bdb4c0a781dd"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9479a8ed35cf1d4a583df9be3f61d09567a91ad1e73a10fee705077d95d616ef"
+  inputs-digest = "ab09e0e3b75a24eb3ab91bd6d07cc44e8fa5b27efd6f9d6cc2a319a8b68b6e85"
   solver-name = "gps-cdcl"
   solver-version = 1

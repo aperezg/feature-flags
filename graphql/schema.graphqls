@@ -1,0 +1,20 @@
+type Project {
+    id: ID
+    name: String
+    createdAt: String
+    updatedAt: String
+    Status: Boolean
+}
+
+type Query {
+    projects: [Project]
+    project(id: ID): Project
+}
+
+type Mutation {
+    createProject(name: String): Project
+    modifyProjectName(id: ID, newName: String): Project
+	deactivateProject(id: ID): Project
+	activateProject(id: ID): Project
+	removeProject(id: ID): Project
+}
