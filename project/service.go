@@ -2,10 +2,9 @@ package project
 
 import (
 	"fmt"
-	"time"
-
 	"github.com/aperezg/feature-flags/identity"
 	"github.com/pkg/errors"
+	"time"
 )
 
 // Service the interface used for encapsulate the business logic of the project
@@ -27,7 +26,7 @@ type Service interface {
 	RemoveProject(ID string) error
 
 	// FindProjects Fetch all projects on store
-	FindProjects() ([]Project, error)
+	FindProjects() ([]*Project, error)
 }
 
 type service struct {
@@ -120,10 +119,10 @@ func (s *service) RemoveProject(ID string) error {
 	return nil
 }
 
-func (s *service) FindProjects() ([]Project, error) {
+func (s *service) FindProjects() ([]*Project, error) {
 	projects, err := s.repository.FindAll()
 	if err != nil {
-		return []Project{}, errors.Wrap(err, "Can't retrieve the results")
+		return []*Project{}, errors.Wrap(err, "Can't retrieve the results")
 	}
 
 	return projects, err

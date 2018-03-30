@@ -177,7 +177,7 @@ func TestReturnRemoveProject(t *testing.T) {
 
 func TestReturnAnErrorTryingToFetchResulsetOnFindProjects(t *testing.T) {
 	r := new(store.RepositoryMock)
-	r.On("FindAll").Return([]project.Project{}, errors.New("error"))
+	r.On("FindAll").Return([]*project.Project{}, errors.New("error"))
 
 	s := project.NewService(r)
 	projects, err := s.FindProjects()
@@ -187,7 +187,7 @@ func TestReturnAnErrorTryingToFetchResulsetOnFindProjects(t *testing.T) {
 
 func TestReturnAnEmptyResultWhenNotFoundProjectOnFindProjects(t *testing.T) {
 	r := new(store.RepositoryMock)
-	r.On("FindAll").Return([]project.Project{}, nil)
+	r.On("FindAll").Return([]*project.Project{}, nil)
 
 	s := project.NewService(r)
 	projects, err := s.FindProjects()
@@ -199,7 +199,7 @@ func TestReturnProjectsOnFindProjects(t *testing.T) {
 	r := new(store.RepositoryMock)
 	p := dummyProject(projectName)
 
-	r.On("FindAll").Return([]project.Project{p}, nil)
+	r.On("FindAll").Return([]*project.Project{&p}, nil)
 
 	s := project.NewService(r)
 	projects, err := s.FindProjects()
