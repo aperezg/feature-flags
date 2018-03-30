@@ -30,10 +30,6 @@
   unused-packages = true
 
 [[constraint]]
-  name = "github.com/graphql-go/graphql"
-  version = "0.7.5"
-
-[[constraint]]
   name = "github.com/stretchr/testify"
   version = "1.2.1"
 [[constraint]]
