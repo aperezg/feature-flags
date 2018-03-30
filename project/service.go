@@ -2,9 +2,10 @@ package project
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/aperezg/feature-flags/identity"
 	"github.com/pkg/errors"
-	"time"
 )
 
 // Service the interface used for encapsulate the business logic of the project

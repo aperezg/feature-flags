@@ -2,12 +2,13 @@ package project_test
 
 import (
 	"errors"
+	"testing"
+	"time"
+
 	"github.com/aperezg/feature-flags/project"
 	store "github.com/aperezg/feature-flags/store/mock/project"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"testing"
-	"time"
 )
 
 const projectID = "01C9S9Z0VG0MJFWYQZBFSSXDZE"
