@@ -42,13 +42,28 @@ func TestEncodeResponse(t *testing.T) {
 	}
 }
 
-var responseData = map[string]string{
-	identity.NewID(): "Alderaan",
-	identity.NewID(): "Yavin IV",
-	identity.NewID(): "Hoth",
+var encodeErrors = []error{
+	errors.New(response.HTTPStatusBadRequest),
+	errors.New(response.HTTPStatusNotFound),
+	errors.New("other"),
+}
+
+func TestEncodeError(t *testing.T) {
+	ctx := context.Background()
+	w := httptest.NewRecorder()
+
+	for _, e := range encodeErrors {
+		response.EncodeError(ctx, e, w)
+	}
 }
 
 func responseOK() *response.Response {
+	var responseData = map[string]string{
+		identity.NewID(): "Alderaan",
+		identity.NewID(): "Yavin IV",
+		identity.NewID(): "Hoth",
+	}
+
 	return response.NewResponse(responseData)
 }
 
