@@ -175,7 +175,7 @@ func TestReturnRemoveProject(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestReturnAnErrorTryingToFetchResulsetOnFindProjects(t *testing.T) {
+func TestReturnAnErrorWhenNilResulsetOnFindProjects(t *testing.T) {
 	r := new(store.RepositoryMock)
 	r.On("FindAll").Return([]*project.Project{}, errors.New("error"))
 
@@ -191,7 +191,7 @@ func TestReturnAnEmptyResultWhenNotFoundProjectOnFindProjects(t *testing.T) {
 
 	s := project.NewService(r)
 	projects, err := s.FindProjects()
-	assert.NoError(t, err)
+	assert.Error(t, err)
 	assert.Empty(t, projects)
 }
 
